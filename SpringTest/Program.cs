@@ -14,12 +14,14 @@ namespace SpringTest
 				new ConfigurationBuilder()
 					.AddJsonFile("appsettings.json")
 					.AddJsonFile("local.json")
-					.AddConfigServer("/development/master");
+					.AddConfigServer("/development/master");// the environment is built by {Deployment}/{Branch}.
+																	   // so if we add something only to our branch we can keep using the same repo.
+											                           // not quite sure how useful it is though
 
 			var cfg = builder.Build();
-			Console.WriteLine(string.Join(",", cfg.GetChildren().Select(c => c.Key)));
-			Console.WriteLine(cfg.GetDebugView());
-			Console.WriteLine(JsonConvert.SerializeObject(cfg.Get<Config>()));
+			Console.WriteLine(string.Join(",", cfg.GetChildren().Select(c => c.Key))); // all known sections
+			Console.WriteLine(cfg.GetDebugView()); // everything
+			Console.WriteLine(JsonConvert.SerializeObject(cfg.Get<Config>())); //the configuration as binded
 		}
 
 		class Config
